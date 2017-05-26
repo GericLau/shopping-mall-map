@@ -47,7 +47,23 @@ var initialMall = [
             lng: -73.9632393
         }
     }
-]
+];
+
+var map;
+function initMap() {
+    var Cincinnati = {lat: 37.285984, lng: -91.3583594};
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: Cincinnati,
+        zoom: 13
+    });
+
+    var marker = new google.maps.Marker({
+        position: Cincinnati,
+        map: map
+    });
+
+}
+
 
 var Mall = function(data) {
     this.title = ko.observable(data.title);
@@ -58,7 +74,6 @@ var ViewModel = function() {
     this.mallList = ko.observableArray([]),
     this.filter = ko.observable(""),
     this.resultMall = ko.observableArray([]);
-
 
     initialMall.forEach(function(mallItem){
         that.mallList.push( new Mall(mallItem) )
