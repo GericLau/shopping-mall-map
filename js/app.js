@@ -46,9 +46,48 @@ var malls = [
 var map,
     markers = [];
 
+
+function populateInfoWindow(marker, infowindow) {
+    if (infowindow.marker != marker) {
+        infowindow.marker = marker;
+        infowindow.setContent('<div>' + marker.title + '</div>');
+        infowindow.open(map, marker);
+        // Make sure the marker property is cleared if the infowindow is closed.
+        infowindow.addListener('closeclick', function() {
+            infowindow.marker = null;
+        });
+    }
+}
+
+function makeMarkerIcon(markerColor) {
+    var markerImage = new google.maps.MarkerImage(
+        'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
+        '|40|_|%E2%80%A2',
+        new google.maps.Size(21, 34),
+        new google.maps.Point(0, 0),
+        new google.maps.Point(10, 34),
+        new google.maps.Size(21,34));
+    return markerImage;
+}
+
+function toggleBounce(marker) {
+    // Style the markers a bit.
+    var defaultIcon = makeMarkerIcon('FE7569');
+    var highlightedIcon = makeMarkerIcon('FFFF24');
+
+    for (var i = 0; i < markers.length; i++){
+        if (markers[i].title !== marker.title) {
+            markers[i].setIcon(defaultIcon);
+        } else {
+            markers[i].setIcon(highlightedIcon);
+        }
+    }
+}
+
 function initMap() {
     var kkone = malls[0].location,
-        bounds = new google.maps.LatLngBounds();
+        bounds = new google.maps.LatLngBounds(),
+        largeInfowindow = new google.maps.InfoWindow();
 
     map = new google.maps.Map(document.getElementById('map'), {
         center: kkone,
@@ -58,6 +97,7 @@ function initMap() {
     malls.forEach(function(mallItem, index) {
         var title = mallItem.title,
             position = mallItem.location,
+            defaultIcon = makeMarkerIcon('FE7569'),
             marker = new google.maps.Marker({
                 position: position,
                 title: title,
@@ -67,18 +107,21 @@ function initMap() {
 
         markers.push(marker);
         markers[index].setMap(map);
+        markers[index].setIcon(defaultIcon);
+        markers[index].addListener('click', function() {
+            toggleBounce(this);
+            populateInfoWindow(this, largeInfowindow);
+        });
         bounds.extend(markers[index].position);
     });
 }
-
 
 var Mall = function(data) {
     this.title = ko.observable(data.title);
 }
 
 var ViewModel = function() {
-    var that = this,
-        query = ko.observable('');
+    var that = this;
     this.mallList = ko.observableArray([]),
     this.filter = ko.observable(""),
     this.resultMall = ko.observableArray([]);
@@ -117,4 +160,3 @@ var ViewModel = function() {
 }
 
 ko.applyBindings(new ViewModel());
-ViewModel.query.subscribe(ViewModel.filteredMalls);
