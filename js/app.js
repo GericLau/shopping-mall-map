@@ -1,67 +1,74 @@
 var initialMall = [
     {
-        title: 'Coastal City',
-        location:
-        {
-            lat: 40.7713024,
-            lng: -73.9632393
+        title: 'KK One',
+        location : {
+            lat : 22.5312533,
+            lng : 114.0612242
         }
     },
     {
-        title: 'Coco Park',
-        location:
-        {
-            lat: 40.7713024,
-            lng: -73.9632393
+        title : 'Coastal City',
+        location : {
+            lat : 22.518318,
+            lng : 113.937145
+        }
+    },
+    {
+        title: 'Galaxy Cocopark',
+        location : {
+            lat : 22.533611,
+            lng : 114.054821
         }
     },
     {
         title: 'The Mixc',
-        location:
-        {
-            lat: 40.7713024,
-            lng: -73.9632393
+        location : {
+            lat : 22.5373609,
+            lng : 114.11116
         }
     },
     {
         title: 'The Oct Harbour',
-        location:
-        {
-            lat: 40.7713024,
-            lng: -73.9632393
+        location : {
+            lat : 22.5258226,
+            lng : 113.9888996
         }
     },
     {
         title: 'KK Mall',
-        location:
-        {
-            lat: 40.7713024,
-            lng: -73.9632393
-        }
-    },
-    {
-        title: 'KK One',
-        location:
-        {
-            lat: 40.7713024,
-            lng: -73.9632393
+        location : {
+            lat : 22.5410434,
+            lng : 114.1063674
         }
     }
 ];
 
-var map;
+var map,
+    markers = [];
+
 function initMap() {
-    var Cincinnati = {lat: 37.285984, lng: -91.3583594};
+    var kkone = initialMall[0].location,
+        bounds = new google.maps.LatLngBounds();
+
     map = new google.maps.Map(document.getElementById('map'), {
-        center: Cincinnati,
-        zoom: 13
+        center: kkone,
+        zoom: 12
     });
 
-    var marker = new google.maps.Marker({
-        position: Cincinnati,
-        map: map
-    });
+    initialMall.forEach(function(mallItem, index) {
+        var title = mallItem.title,
+            position = mallItem.location,
+            marker = new google.maps.Marker({
+                position: position,
+                title: title,
+                animation: google.maps.Animation.DROP,
+                id: index
+            });
 
+        markers.push(marker);
+        markers[index].setMap(map);
+        bounds.extend(markers[index].position);
+    });
 }
 
 
