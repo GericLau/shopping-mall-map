@@ -1,4 +1,4 @@
-var initialMall = [
+var malls = [
     {
         title: 'KK One',
         location : {
@@ -47,7 +47,7 @@ var map,
     markers = [];
 
 function initMap() {
-    var kkone = initialMall[0].location,
+    var kkone = malls[0].location,
         bounds = new google.maps.LatLngBounds();
 
     map = new google.maps.Map(document.getElementById('map'), {
@@ -55,7 +55,7 @@ function initMap() {
         zoom: 12
     });
 
-    initialMall.forEach(function(mallItem, index) {
+    malls.forEach(function(mallItem, index) {
         var title = mallItem.title,
             position = mallItem.location,
             marker = new google.maps.Marker({
@@ -77,12 +77,13 @@ var Mall = function(data) {
 }
 
 var ViewModel = function() {
-    var that = this;
+    var that = this,
+        query = ko.observable('');
     this.mallList = ko.observableArray([]),
     this.filter = ko.observable(""),
     this.resultMall = ko.observableArray([]);
 
-    initialMall.forEach(function(mallItem){
+    malls.forEach(function(mallItem){
         that.mallList.push( new Mall(mallItem) )
     });
 
@@ -92,12 +93,22 @@ var ViewModel = function() {
         that.resultMall = ko.observableArray([]);
 
         if (!filterText) {
+            // setMap for all markers when input is null
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(map);
+            }
             return that.mallList();
         } else {
+            // clear the markers
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(null);
+            }
             // push the mall into result match query
-            initialMall.forEach(function(mallItem){
+            malls.forEach(function(mallItem, i){
                 if(mallItem.title.toLowerCase().indexOf(that.filter().toLowerCase()) >= 0) {
-                    that.resultMall.push( new Mall(mallItem) )
+                    that.resultMall.push( new Mall(mallItem) );
+                    // setMap for the matched item
+                    markers[i].setMap(map);
                 }
             });
             return that.resultMall();
@@ -106,3 +117,4 @@ var ViewModel = function() {
 }
 
 ko.applyBindings(new ViewModel());
+ViewModel.query.subscribe(ViewModel.filteredMalls);
