@@ -4,42 +4,48 @@ var malls = [
         location : {
             lat : 22.5312533,
             lng : 114.0612242
-        }
+        },
+        venueId : '574d68eb498efef6821475a3'
     },
     {
         title : 'Coastal City',
         location : {
             lat : 22.518318,
             lng : 113.937145
-        }
+        },
+        venueId : '4b8fb877f964a520bb5e33e3'
     },
     {
         title: 'Galaxy Cocopark',
         location : {
             lat : 22.533611,
             lng : 114.054821
-        }
+        },
+        venueId : '4e1198e8fa769d21e9ee3f9c'
     },
     {
         title: 'The Mixc',
         location : {
             lat : 22.5373609,
             lng : 114.11116
-        }
+        },
+        venueId : '4ccbb617063a721ecabd899a'
     },
     {
         title: 'The Oct Harbour',
         location : {
             lat : 22.5258226,
             lng : 113.9888996
-        }
+        },
+        venueId : '4eb215696da1df5f01a9799a'
     },
     {
         title: 'KK Mall',
         location : {
             lat : 22.5410434,
             lng : 114.1063674
-        }
+        },
+        venueId : '4cef5decf368b1f75e3685f7'
     }
 ];
 
