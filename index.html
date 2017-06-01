@@ -6,11 +6,15 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <input name="search" data-bind="value: filter, valueUpdate: 'afterkeydown'">
-    <ul id="mallList" data-bind="foreach: filteredMalls">
-        <li data-bind="text: $data.title"></li>
-    </ul>
-    <div id="map">
+    <div class="container">
+        <div id="result">
+            <input name="search" placeholder="KK One" data-bind="value: filter, valueUpdate: 'afterkeydown'">
+            <ul id="mallList" data-bind="foreach: filteredMalls">
+                <li data-bind="text: $data.title"></li>
+            </ul>
+        </div>
+        <div id="map">
+        </div>
     </div>
 
     <script src="js/knockout-3.4.2.js"></script>

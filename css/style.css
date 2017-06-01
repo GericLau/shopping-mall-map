@@ -49,9 +49,62 @@ table {
 
 /* Shopping Mall Map style */
 html, body {
+    font-family: Arial, sans-serif;
     height: 100%;
+}
+
+.container {
+    height: 100%;
+    position: relative;
+}
+
+#result {
+    padding: 10px 10px 30px 10px;
+}
+
+
+#result input {
+    width: 320px;
+    height: 35px;
+}
+
+#mallList {
+    margin-top: 15px;
+}
+
+#mallList li {
+    cursor: pointer;
+    margin-top: 5px;
 }
 
 #map {
     height: 100%;
+}
+
+@media (min-width: 960px) {
+    .container {
+        height: 100%;
+        position: relative;
+    }
+
+    #result {
+        background: #fff;
+        border: 1px solid #999;
+        border-radius: 3px;
+        height: 100%;
+        line-height: 35px;
+        text-align: left;
+        width: 20%;
+        float: left;
+    }
+
+    #result input {
+        width: 90%;
+        height: 35px;
+    }
+
+    #map {
+        width: 78%;
+        float: right;
+    }
 }
