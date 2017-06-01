@@ -56,7 +56,45 @@ var map,
 function populateInfoWindow(marker, infowindow) {
     if (infowindow.marker != marker) {
         infowindow.marker = marker;
-        infowindow.setContent('<div>' + marker.title + '</div>');
+        infowindow.setContent('Mall information loading');
+        // foursquare API get venue info
+        var latestversion = this.getLatestVersion(),
+            oauth_token = "5BEUWLP13HU3XWQD5VSFPOINAMGK2R5FQS4HMX0OXWHE5H0U",
+            //oauth_token = "hahh",
+            url = "https://api.foursquare.com/v2/venues/"+marker.venueId+"?oauth_token="+oauth_token+"&v="+latestversion,
+            that = this,
+            foursquareObj = {};
+
+        $.ajax( {
+            url: url,
+            dataType: 'jsonp',
+            success: function(data) {
+                var venue = data.response.venue;
+                var venueAlbums = venue.photos.groups;
+                var firstImage = that.getPhotos(venueAlbums);
+
+                foursquareObj = {
+                    id: venue.id,
+                    name: venue.name,
+                    streetAddress: venue.location.address,
+                    rating: venue.rating,
+                    locality: venue.location.city,
+                    image: firstImage
+                };
+
+                infowindow.setContent('<div id="info">' +
+                                        '<h2 class="mall-name">' + foursquareObj.name + '</h2>' +
+                                        '<img class="mall-image" src="' + foursquareObj.image + '" alt="' + foursquareObj.name + '" >' +
+                                        '<p class="mall-addr">' + foursquareObj.streetAddress + '</p>' +
+                                        '<span class="rating">' + foursquareObj.rating + '</span>' +
+                                        '</div>');
+
+            },
+            error: function(e) {
+                infowindow.setContent('Could not load foursquare info');
+            }
+        });
+
         infowindow.open(map, marker);
         // Make sure the marker property is cleared if the infowindow is closed.
         infowindow.addListener('closeclick', function() {
@@ -103,12 +141,14 @@ function initMap() {
     malls.forEach(function(mallItem, index) {
         var title = mallItem.title,
             position = mallItem.location,
+            venueId = mallItem.venueId,
             defaultIcon = makeMarkerIcon('FE7569'),
             marker = new google.maps.Marker({
                 position: position,
                 title: title,
                 animation: google.maps.Animation.DROP,
-                id: index
+                id: index,
+                venueId: venueId
             });
 
         markers.push(marker);
@@ -163,6 +203,36 @@ var ViewModel = function() {
             return that.resultMall();
         }
     },this);
+}
+
+var getPhotos = function(venueAlbums){
+        var heightDimension = 150,
+            widthDimension = 150,
+            album = "";
+
+        var dimensions = heightDimension+'x'+widthDimension;
+        // test for get the first image
+        var firstImage = venueAlbums[0].items[0];
+
+        album = firstImage.prefix+dimensions+firstImage.suffix;
+        return album;
+}
+
+var getLatestVersion = function(){
+        var d = new Date(),
+            year = d.getFullYear(),
+            month = d.getMonth(),
+            day = d.getMonth();
+
+        if(month <10){
+            month = "0"+month;
+        }
+
+        if(day <10){
+            day = "0"+day;
+        }
+
+        return year+month+day;
 }
 
 ko.applyBindings(new ViewModel());
