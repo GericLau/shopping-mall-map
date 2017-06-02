@@ -59,6 +59,7 @@ html, body {
 }
 
 #result {
+    box-sizing: border-box;
     padding: 10px 10px 30px 10px;
 }
 
@@ -79,6 +80,31 @@ html, body {
 
 #map {
     height: 100%;
+}
+
+/* Info Windows style */
+#info .mall-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+#info .mall-addr {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+#info .rating {
+    background-color: #73CF42;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    color: #fff;
+    padding: 5px 0;
+    width: 30px;
+    box-sizing: border-box;
+    display: inline-block;
+    text-align: center;
 }
 
 @media (min-width: 960px) {
@@ -104,7 +130,7 @@ html, body {
     }
 
     #map {
-        width: 78%;
+        width: 80%;
         float: right;
     }
 }
