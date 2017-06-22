@@ -203,36 +203,40 @@ var ViewModel = function() {
             return that.resultMall();
         }
     },this);
+
+/*    this.bounce = function(mall) {
+        google.maps.event.trigger(self.marker, 'click');
+    };*/
 }
 
 var getPhotos = function(venueAlbums){
-        var heightDimension = 150,
-            widthDimension = 150,
-            album = "";
+    var heightDimension = 150,
+        widthDimension = 150,
+        album = "";
 
-        var dimensions = heightDimension+'x'+widthDimension;
-        // test for get the first image
-        var firstImage = venueAlbums[0].items[0];
+    var dimensions = heightDimension+'x'+widthDimension;
+    // test for get the first image
+    var firstImage = venueAlbums[0].items[0];
 
-        album = firstImage.prefix+dimensions+firstImage.suffix;
-        return album;
+    album = firstImage.prefix+dimensions+firstImage.suffix;
+    return album;
 }
 
 var getLatestVersion = function(){
-        var d = new Date(),
-            year = d.getFullYear(),
-            month = d.getMonth(),
-            day = d.getMonth();
+    var d = new Date(),
+        year = d.getFullYear(),
+        month = d.getMonth(),
+        day = d.getMonth();
 
-        if(month <10){
-            month = "0"+month;
-        }
+    if(month <10){
+        month = "0"+month;
+    }
 
-        if(day <10){
-            day = "0"+day;
-        }
+    if(day <10){
+        day = "0"+day;
+    }
 
-        return year+month+day;
+    return year+month+day;
 }
 
 ko.applyBindings(new ViewModel());

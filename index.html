@@ -10,7 +10,7 @@
         <div id="result">
             <input name="search" placeholder="KK One" data-bind="value: filter, valueUpdate: 'afterkeydown'">
             <ul id="mallList" data-bind="foreach: filteredMalls">
-                <li data-bind="text: $data.title"></li>
+                <li data-bind="text: $data.title, click: $parent.bounce"></li>
             </ul>
         </div>
         <div id="map">
